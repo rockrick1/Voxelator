@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using World;
 
 namespace WorldGeneration
 {
@@ -7,13 +8,15 @@ namespace WorldGeneration
     {
         [SerializeField] GameObject _chunkPrefab;
         [SerializeField] float _noiseScale;
+        [SerializeField] float _drawDistance;
 
         public static ChunkLoader Instance { get; private set; }
-
         public byte[,,] World => _world;
 
         Dictionary<int, Dictionary<int, Dictionary<int, Chunk>>> _chunks;
         byte[,,] _world;
+        Vector3 _playerPosition => WorldController.Instance.PlayerController.transform.position;
+        float _buildDistanceDiff => _drawDistance / 4;
 
         void Awake()
         {
@@ -72,6 +75,28 @@ namespace WorldGeneration
             }
 
             return ret;
+        }
+
+        void Update()
+        {
+            foreach (var pairX in _chunks)
+            {
+                foreach (var pairY in _chunks[pairX.Key])
+                {
+                    foreach (var pairZ in _chunks[pairX.Key][pairY.Key])
+                    {
+                        var distanceToPlayer = Vector3.Distance(_playerPosition, _chunks[pairX.Key][pairY.Key][pairZ.Key].transform.position);
+                        if (distanceToPlayer > _drawDistance)
+                        {
+                            _chunks[pairX.Key][pairY.Key][pairZ.Key].gameObject.SetActive(false);
+                        }
+                        else if (distanceToPlayer < _drawDistance - _buildDistanceDiff)
+                        {
+                            _chunks[pairX.Key][pairY.Key][pairZ.Key].gameObject.SetActive(true);
+                        }
+                    }
+                }
+            }
         }
     }
 

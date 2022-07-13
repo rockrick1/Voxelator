@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Numerics;
-using Unity.Mathematics;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
@@ -135,6 +133,11 @@ namespace WorldGeneration
             }
 
             return new Vector2(_faces[facenum, 7], _faces[facenum, 8]) / 2f;
+        }
+
+        public void Free()
+        {
+            
         }
     }
 }
