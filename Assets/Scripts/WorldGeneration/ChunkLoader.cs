@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using World;
 
@@ -13,6 +14,8 @@ namespace WorldGeneration
         public static ChunkLoader Instance { get; private set; }
         public byte[,,] World => _world;
 
+        Queue<UniTask> _chunkLoadQueue;
+
         Dictionary<int, Dictionary<int, Dictionary<int, Chunk>>> _chunks;
         byte[,,] _world;
         Vector3 _playerPosition => WorldController.Instance.PlayerController.transform.position;
@@ -20,9 +23,10 @@ namespace WorldGeneration
 
         void Awake()
         {
+            _chunkLoadQueue = new Queue<UniTask>();
             if (Instance == null) Instance = this;
             GenerateWorld();
-            InitializeChunks();
+            InstantiateChunks();
         }
         
         void GenerateWorld()
@@ -30,7 +34,7 @@ namespace WorldGeneration
             _world = WorldGenerator.GenerateWorld(_noiseScale);
         }
 
-        void InitializeChunks()
+        void InstantiateChunks()
         {
             _chunks = new Dictionary<int, Dictionary<int, Dictionary<int, Chunk>>>();
             for (int x = 0; x < WorldGenerator.WORLD_SIZE_X; x++)
@@ -79,20 +83,29 @@ namespace WorldGeneration
 
         void Update()
         {
+            if (_chunkLoadQueue.Count > 0)
+            {
+                var task = _chunkLoadQueue.Dequeue();
+                //TODO CANCELLATION TOKEN I DONT KNOW MAN PLS HELP ME
+                task.Forget();
+            }
+            
             foreach (var pairX in _chunks)
             {
                 foreach (var pairY in _chunks[pairX.Key])
                 {
                     foreach (var pairZ in _chunks[pairX.Key][pairY.Key])
                     {
-                        var distanceToPlayer = Vector3.Distance(_playerPosition, _chunks[pairX.Key][pairY.Key][pairZ.Key].transform.position);
-                        if (distanceToPlayer > _drawDistance)
+                        var chunk = _chunks[pairX.Key][pairY.Key][pairZ.Key];
+                        var distanceToPlayer = Vector3.Distance(_playerPosition, chunk.transform.position);
+                        if (distanceToPlayer > _drawDistance && chunk.IsBuilt)
                         {
-                            _chunks[pairX.Key][pairY.Key][pairZ.Key].gameObject.SetActive(false);
+                            chunk.Free();
                         }
-                        else if (distanceToPlayer < _drawDistance - _buildDistanceDiff)
+                        else if (distanceToPlayer < _drawDistance - _buildDistanceDiff && !chunk.IsBuilt &&
+                                 !_chunkLoadQueue.Contains(chunk.Build()))
                         {
-                            _chunks[pairX.Key][pairY.Key][pairZ.Key].gameObject.SetActive(true);
+                            _chunkLoadQueue.Enqueue(chunk.Build());
                         }
                     }
                 }

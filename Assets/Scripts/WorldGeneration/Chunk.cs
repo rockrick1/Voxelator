@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
@@ -29,6 +30,7 @@ namespace WorldGeneration
         [SerializeField] MeshCollider _meshCollider;
 
         public Vector3Int IndexInWorld { get; private set; }
+        public bool IsBuilt => _meshFilter.mesh.vertexCount > 0;
         
         byte[,,] _voxels;
         Vector3Int _dimentions;
@@ -36,11 +38,16 @@ namespace WorldGeneration
 
         public void Init(byte[,,] voxels, Vector3Int indexInWorld)
         {
+            _meshFilter.mesh = null;
             _dimentions = new Vector3Int(WorldGenerator.CHUNK_SIZE_X, WorldGenerator.CHUNK_SIZE_Y, WorldGenerator.CHUNK_SIZE_Z);
             IndexInWorld = indexInWorld;
             _voxels = voxels;
-            
+        }
+        
+        public UniTask Build()
+        {
             GenerateMesh();
+            return default;
         }
 
         void GenerateMesh()
@@ -137,7 +144,7 @@ namespace WorldGeneration
 
         public void Free()
         {
-            
+            _meshFilter.mesh = null;
         }
     }
 }
