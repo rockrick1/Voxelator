@@ -292,13 +292,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noiseName: Main Noise
   seed: 1337
-  frequency: 0.007
+  frequency: 0.01
   interp: 2
-  noiseType: 5
+  noiseType: 4
   octaves: 3
   lacunarity: 2
   gain: 0.5
-  fractalType: 2
+  fractalType: 0
   cellularDistanceFunction: 0
   cellularReturnType: 0
   cellularNoiseLookup: {fileID: 0}
@@ -307,7 +307,7 @@ MonoBehaviour:
   cellularJitter: 0.45
   gradientPerturbAmp: 1
   generalSettingsFold: 1
-  fractalSettingsFold: 1
+  fractalSettingsFold: 0
   cellularSettingsFold: 0
   positionWarpSettingsFold: 0
 --- !u!114 &93157386
@@ -377,7 +377,7 @@ MonoBehaviour:
   cellularDistanceIndex0: 0
   cellularDistanceIndex1: 1
   cellularJitter: 0.45
-  gradientPerturbAmp: 30
+  gradientPerturbAmp: 5
   generalSettingsFold: 1
   fractalSettingsFold: 0
   cellularSettingsFold: 0

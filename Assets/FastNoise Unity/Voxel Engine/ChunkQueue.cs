@@ -7,12 +7,12 @@ namespace VoxelEngine
 	{
 		// Max queue size stops queue items becoming old, since the are sorted based on
 		// the original distance they were added with and the target may have moved since then
-		private const int MAX_QUEUE_SIZE = 256;
+		const int MAX_QUEUE_SIZE = 256;
 
 		// Sorted list of chunk locations
-		private List<ChunkQueueItem> items = new List<ChunkQueueItem>(MAX_QUEUE_SIZE);
+		List<ChunkQueueItem> items = new List<ChunkQueueItem>(MAX_QUEUE_SIZE);
 		// Hash set of queuing/processing chunk positions (faster contains check)
-		private HashSet<Vector3i> hashSet = new HashSet<Vector3i>();
+		HashSet<Vector3i> hashSet = new HashSet<Vector3i>();
 
 		public int Count
 		{
@@ -91,7 +91,7 @@ namespace VoxelEngine
 		}
 
 		// Item for linked list
-		private struct ChunkQueueItem : IComparable<ChunkQueueItem>
+		struct ChunkQueueItem : IComparable<ChunkQueueItem>
 		{
 			public float distance;
 			public Vector3i pos;

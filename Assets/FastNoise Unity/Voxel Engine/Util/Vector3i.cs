@@ -62,9 +62,9 @@ namespace VoxelEngine
 			return DistanceSquared(this, v);
 		}
 
-		private const int X_PRIME = 1619;
-		private const int Y_PRIME = 31337;
-		private const int Z_PRIME = 6971;
+		const int X_PRIME = 1619;
+		const int Y_PRIME = 31337;
+		const int Z_PRIME = 6971;
 
 		public override int GetHashCode()
 		{

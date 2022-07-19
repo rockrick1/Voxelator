@@ -25,7 +25,7 @@ public class UIVirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandle
         SetupHandle();
     }
 
-    private void SetupHandle()
+    void SetupHandle()
     {
         if(handleRect)
         {
@@ -68,12 +68,12 @@ public class UIVirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandle
         }
     }
 
-    private void OutputPointerEventValue(Vector2 pointerPosition)
+    void OutputPointerEventValue(Vector2 pointerPosition)
     {
         joystickOutputEvent.Invoke(pointerPosition);
     }
 
-    private void UpdateHandleRectPosition(Vector2 newPosition)
+    void UpdateHandleRectPosition(Vector2 newPosition)
     {
         handleRect.anchoredPosition = newPosition;
     }

@@ -57,7 +57,7 @@ public class FastNoiseSIMD
 		GradientFractal_Normalise
 	};
 
-	private readonly POINTER nativePointer;
+	readonly POINTER nativePointer;
 
 	public FastNoiseSIMD(int seed = 1337)
 	{
@@ -341,9 +341,9 @@ public class FastNoiseSIMD
 #if UNITY_STANDALONE || UNITY_ANDROID || UNITY_IOS
 
 #if UNITY_IOS && !UNITY_EDITOR
-	private const string NATIVE_LIB = "__Internal";
+	const string NATIVE_LIB = "__Internal";
 #else
-	private const string NATIVE_LIB = "FastNoiseSIMD_CLib";
+	const string NATIVE_LIB = "FastNoiseSIMD_CLib";
 #endif
 
 	[DllImport(NATIVE_LIB)]
@@ -353,91 +353,91 @@ public class FastNoiseSIMD
 	public static extern void SetSIMDLevel(int level);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern POINTER NewFastNoiseSIMD(int seed);
+	static extern POINTER NewFastNoiseSIMD(int seed);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeFree(POINTER nativePointer);
+	static extern void NativeFree(POINTER nativePointer);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetSeed(POINTER nativePointer, int seed);
+	static extern void NativeSetSeed(POINTER nativePointer, int seed);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern int NativeGetSeed(POINTER nativePointer);
+	static extern int NativeGetSeed(POINTER nativePointer);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetFrequency(POINTER nativePointer, float freq);
+	static extern void NativeSetFrequency(POINTER nativePointer, float freq);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetNoiseType(POINTER nativePointer, int noiseType);
+	static extern void NativeSetNoiseType(POINTER nativePointer, int noiseType);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetAxisScales(POINTER nativePointer, float xScale, float yScale, float zScale);
+	static extern void NativeSetAxisScales(POINTER nativePointer, float xScale, float yScale, float zScale);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetFractalOctaves(POINTER nativePointer, int octaves);
+	static extern void NativeSetFractalOctaves(POINTER nativePointer, int octaves);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetFractalLacunarity(POINTER nativePointer, float lacunarity);
+	static extern void NativeSetFractalLacunarity(POINTER nativePointer, float lacunarity);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetFractalGain(POINTER nativePointer, float gain);
+	static extern void NativeSetFractalGain(POINTER nativePointer, float gain);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetFractalType(POINTER nativePointer, int fractalType);
+	static extern void NativeSetFractalType(POINTER nativePointer, int fractalType);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetCellularDistanceFunction(POINTER nativePointer, int distanceFunction);
+	static extern void NativeSetCellularDistanceFunction(POINTER nativePointer, int distanceFunction);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetCellularReturnType(POINTER nativePointer, int returnType);
+	static extern void NativeSetCellularReturnType(POINTER nativePointer, int returnType);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetCellularNoiseLookupType(POINTER nativePointer, int noiseType);
+	static extern void NativeSetCellularNoiseLookupType(POINTER nativePointer, int noiseType);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetCellularNoiseLookupFrequency(POINTER nativePointer, float freq);
+	static extern void NativeSetCellularNoiseLookupFrequency(POINTER nativePointer, float freq);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetCellularDistance2Indicies(POINTER nativePointer, int cellularDistanceIndex0, int cellularDistanceIndex1);
+	static extern void NativeSetCellularDistance2Indicies(POINTER nativePointer, int cellularDistanceIndex0, int cellularDistanceIndex1);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetCellularJitter(POINTER nativePointer, float cellularJitter);
+	static extern void NativeSetCellularJitter(POINTER nativePointer, float cellularJitter);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetPerturbType(POINTER nativePointer, int perturbType);
+	static extern void NativeSetPerturbType(POINTER nativePointer, int perturbType);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetPerturbFrequency(POINTER nativePointer, float perturbFreq);
+	static extern void NativeSetPerturbFrequency(POINTER nativePointer, float perturbFreq);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetPerturbAmp(POINTER nativePointer, float perturbAmp);
+	static extern void NativeSetPerturbAmp(POINTER nativePointer, float perturbAmp);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetPerturbFractalOctaves(POINTER nativePointer, int perturbOctaves);
+	static extern void NativeSetPerturbFractalOctaves(POINTER nativePointer, int perturbOctaves);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetPerturbFractalLacunarity(POINTER nativePointer, float perturbFractalLacunarity);
+	static extern void NativeSetPerturbFractalLacunarity(POINTER nativePointer, float perturbFractalLacunarity);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetPerturbFractalGain(POINTER nativePointer, float perturbFractalGain);
+	static extern void NativeSetPerturbFractalGain(POINTER nativePointer, float perturbFractalGain);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeSetPerturbNormaliseLength(POINTER nativePointer, float perturbNormaliseLength);
+	static extern void NativeSetPerturbNormaliseLength(POINTER nativePointer, float perturbNormaliseLength);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeFillNoiseSet(POINTER nativePointer, float[] noiseSet, int xStart, int yStart, int zStart,
+	static extern void NativeFillNoiseSet(POINTER nativePointer, float[] noiseSet, int xStart, int yStart, int zStart,
 		int xSize, int ySize, int zSize, float scaleModifier);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeFillSampledNoiseSet(POINTER nativePointer, float[] noiseSet, int xStart, int yStart, int zStart,
+	static extern void NativeFillSampledNoiseSet(POINTER nativePointer, float[] noiseSet, int xStart, int yStart, int zStart,
 		int xSize, int ySize, int zSize, int sampleScale);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeFillNoiseSetVector(POINTER nativePointer, float[] noiseSet, POINTER vectorSetPointer,
+	static extern void NativeFillNoiseSetVector(POINTER nativePointer, float[] noiseSet, POINTER vectorSetPointer,
 		float xOffset, float yOffset, float zOffset);
 
 	[DllImport(NATIVE_LIB)]
-	private static extern void NativeFillSampledNoiseSetVector(POINTER nativePointer, float[] noiseSet, POINTER vectorSetPointer,
+	static extern void NativeFillSampledNoiseSetVector(POINTER nativePointer, float[] noiseSet, POINTER vectorSetPointer,
 		float xOffset, float yOffset, float zOffset);
 
 #else
@@ -445,68 +445,68 @@ public class FastNoiseSIMD
 
 	public static void SetSIMDLevel(int level) { }
 
-	private static POINTER NewFastNoiseSIMD(int seed)
+	static POINTER NewFastNoiseSIMD(int seed)
 	{
 		Debug.LogError("FastNoise SIMD not supported on this platform");
 		return IntPtr.Zero;
 	}
 	
-	private static void NativeFree(POINTER nativePointer) { }
+	static void NativeFree(POINTER nativePointer) { }
 
-	private static void NativeSetSeed(POINTER nativePointer, int seed) { }
+	static void NativeSetSeed(POINTER nativePointer, int seed) { }
 
-	private static int NativeGetSeed(POINTER nativePointer) { return 0; }
+	static int NativeGetSeed(POINTER nativePointer) { return 0; }
 
-	private static void NativeSetFrequency(POINTER nativePointer, float freq) { }
+	static void NativeSetFrequency(POINTER nativePointer, float freq) { }
 
-	private static void NativeSetNoiseType(POINTER nativePointer, int noiseType) { }
+	static void NativeSetNoiseType(POINTER nativePointer, int noiseType) { }
 
-	private static void NativeSetAxisScales(POINTER nativePointer, float xScale, float yScale, float zScale) { }
+	static void NativeSetAxisScales(POINTER nativePointer, float xScale, float yScale, float zScale) { }
 
-	private static void NativeSetFractalOctaves(POINTER nativePointer, int octaves) { }
+	static void NativeSetFractalOctaves(POINTER nativePointer, int octaves) { }
 
-	private static void NativeSetFractalLacunarity(POINTER nativePointer, float lacunarity) { }
+	static void NativeSetFractalLacunarity(POINTER nativePointer, float lacunarity) { }
 
-	private static void NativeSetFractalGain(POINTER nativePointer, float gain) { }
+	static void NativeSetFractalGain(POINTER nativePointer, float gain) { }
 
-	private static void NativeSetFractalType(POINTER nativePointer, int fractalType) { }
+	static void NativeSetFractalType(POINTER nativePointer, int fractalType) { }
 
-	private static void NativeSetCellularDistanceFunction(POINTER nativePointer, int distanceFunction) { }
+	static void NativeSetCellularDistanceFunction(POINTER nativePointer, int distanceFunction) { }
 
-	private static void NativeSetCellularReturnType(POINTER nativePointer, int returnType) { }
+	static void NativeSetCellularReturnType(POINTER nativePointer, int returnType) { }
 	
-	private static void NativeSetCellularNoiseLookupType(POINTER nativePointer, int noiseType) { }
+	static void NativeSetCellularNoiseLookupType(POINTER nativePointer, int noiseType) { }
 	
-	private static void NativeSetCellularNoiseLookupFrequency(POINTER nativePointer, float freq) { } 
+	static void NativeSetCellularNoiseLookupFrequency(POINTER nativePointer, float freq) { } 
 
-	private static void NativeSetCellularDistance2Indicies(POINTER nativePointer, int cellularDistanceIndex0, int cellularDistanceIndex1) { }
+	static void NativeSetCellularDistance2Indicies(POINTER nativePointer, int cellularDistanceIndex0, int cellularDistanceIndex1) { }
 
-	private static void NativeSetCellularJitter(POINTER nativePointer, float cellularJitter) { }
+	static void NativeSetCellularJitter(POINTER nativePointer, float cellularJitter) { }
 	
-	private static void NativeSetPerturbType(POINTER nativePointer, int perturbType) { } 
+	static void NativeSetPerturbType(POINTER nativePointer, int perturbType) { } 
 	
-	private static void NativeSetPerturbFrequency(POINTER nativePointer, float perturbFreq) { } 
+	static void NativeSetPerturbFrequency(POINTER nativePointer, float perturbFreq) { } 
 	
-	private static void NativeSetPerturbAmp(POINTER nativePointer, float perturbAmp) { } 
+	static void NativeSetPerturbAmp(POINTER nativePointer, float perturbAmp) { } 
 	
-	private static void NativeSetPerturbFractalOctaves(POINTER nativePointer, int perturbOctaves) { } 
+	static void NativeSetPerturbFractalOctaves(POINTER nativePointer, int perturbOctaves) { } 
 	
-	private static void NativeSetPerturbFractalLacunarity(POINTER nativePointer, float perturbFractalLacunarity) { } 
+	static void NativeSetPerturbFractalLacunarity(POINTER nativePointer, float perturbFractalLacunarity) { } 
 	
-	private static void NativeSetPerturbFractalGain(POINTER nativePointer, float perturbFractalGain) { } 
+	static void NativeSetPerturbFractalGain(POINTER nativePointer, float perturbFractalGain) { } 
 
-	private static void NativeSetPerturbNormaliseLength(POINTER nativePointer, float perturbNormaliseLength) { }
+	static void NativeSetPerturbNormaliseLength(POINTER nativePointer, float perturbNormaliseLength) { }
 
-	private static void NativeFillNoiseSet(POINTER nativePointer, float[] noiseSet, int xStart, int yStart, int zStart,
+	static void NativeFillNoiseSet(POINTER nativePointer, float[] noiseSet, int xStart, int yStart, int zStart,
 		int xSize, int ySize, int zSize, float scaleModifier) { }
 
-	private static void NativeFillSampledNoiseSet(POINTER nativePointer, float[] noiseSet, int xStart, int yStart, int zStart,
+	static void NativeFillSampledNoiseSet(POINTER nativePointer, float[] noiseSet, int xStart, int yStart, int zStart,
 		int xSize, int ySize, int zSize, int sampleScale) { }
 	
-	private static void NativeFillNoiseSetVector(POINTER nativePointer, float[] noiseSet, POINTER vectorSetPointer,
+	static void NativeFillNoiseSetVector(POINTER nativePointer, float[] noiseSet, POINTER vectorSetPointer,
 		float xOffset, float yOffset, float zOffset) { }
 	
-	private static void NativeFillSampledNoiseSetVector(POINTER nativePointer, float[] noiseSet, POINTER vectorSetPointer,
+	static void NativeFillSampledNoiseSetVector(POINTER nativePointer, float[] noiseSet, POINTER vectorSetPointer,
 		float xOffset, float yOffset, float zOffset) { }
 #endif
 
@@ -535,18 +535,18 @@ public class FastNoiseSIMD
 
 #if UNITY_STANDALONE || UNITY_ANDROID || UNITY_IOS
 		[DllImport(NATIVE_LIB)]
-		private static extern POINTER NewVectorSet(float[] vectorSetArray, int arraySize, int samplingScale, int sampleSizeX, int sampleSizeY, int sampleSizeZ);
+		static extern POINTER NewVectorSet(float[] vectorSetArray, int arraySize, int samplingScale, int sampleSizeX, int sampleSizeY, int sampleSizeZ);
 
 		[DllImport(NATIVE_LIB)]
-		private static extern void NativeFreeVectorSet(POINTER nativePointer);
+		static extern void NativeFreeVectorSet(POINTER nativePointer);
 #else
-		private static POINTER NewVectorSet(float[] vectorSetArray, int arraySize, int samplingScale, int sampleSizeX, int sampleSizeY, int sampleSizeZ)
+		static POINTER NewVectorSet(float[] vectorSetArray, int arraySize, int samplingScale, int sampleSizeX, int sampleSizeY, int sampleSizeZ)
 		{
 			Debug.LogError("FastNoise SIMD Vector Set not supported on this platform");
 			return IntPtr.Zero;
 		}
 		
-		private static void NativeFreeVectorSet(POINTER nativePointer) { }
+		static void NativeFreeVectorSet(POINTER nativePointer) { }
 #endif
 	}
 }

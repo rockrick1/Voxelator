@@ -13,14 +13,14 @@ namespace System
     [ComVisible(false)]
     internal static class HalfHelper
     {
-        private static uint[] mantissaTable = GenerateMantissaTable();
-        private static uint[] exponentTable = GenerateExponentTable();
-        private static ushort[] offsetTable = GenerateOffsetTable();
-        private static ushort[] baseTable = GenerateBaseTable();
-        private static sbyte[] shiftTable = GenerateShiftTable();
+        static uint[] mantissaTable = GenerateMantissaTable();
+        static uint[] exponentTable = GenerateExponentTable();
+        static ushort[] offsetTable = GenerateOffsetTable();
+        static ushort[] baseTable = GenerateBaseTable();
+        static sbyte[] shiftTable = GenerateShiftTable();
 
         // Transforms the subnormal representation to a normalized one. 
-        private static uint ConvertMantissa(int i)
+        static uint ConvertMantissa(int i)
         {
             uint m = (uint)(i << 13); // Zero pad mantissa bits
             uint e = 0; // Zero exponent
@@ -36,7 +36,7 @@ namespace System
             return m | e; // Return combined number
         }
 
-        private static uint[] GenerateMantissaTable()
+        static uint[] GenerateMantissaTable()
         {
             uint[] mantissaTable = new uint[2048];
             mantissaTable[0] = 0;
@@ -51,7 +51,7 @@ namespace System
 
             return mantissaTable;
         }
-        private static uint[] GenerateExponentTable()
+        static uint[] GenerateExponentTable()
         {
             uint[] exponentTable = new uint[64];
             exponentTable[0] = 0;
@@ -69,7 +69,7 @@ namespace System
 
             return exponentTable;
         }
-        private static ushort[] GenerateOffsetTable()
+        static ushort[] GenerateOffsetTable()
         {
             ushort[] offsetTable = new ushort[64];
             offsetTable[0] = 0;
@@ -85,7 +85,7 @@ namespace System
 
             return offsetTable;
         }
-        private static ushort[] GenerateBaseTable()
+        static ushort[] GenerateBaseTable()
         {
             ushort[] baseTable = new ushort[512];
             for (int i = 0; i < 256; ++i)
@@ -120,7 +120,7 @@ namespace System
 
             return baseTable;
         }
-        private static sbyte[] GenerateShiftTable()
+        static sbyte[] GenerateShiftTable()
         {
             sbyte[] shiftTable = new sbyte[512];
             for (int i = 0; i < 256; ++i)

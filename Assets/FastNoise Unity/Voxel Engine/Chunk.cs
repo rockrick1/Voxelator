@@ -38,7 +38,7 @@ namespace VoxelEngine
 			GENERATE_AMBIENT_OCCLUSION ? MeshBuilder.MeshType.AmbientOcclusion : MeshBuilder.MeshType.Basic;
 #pragma warning restore 0429
 
-		private static readonly Vector3i[] adjChunkVectors =
+		static readonly Vector3i[] adjChunkVectors =
 		{
 			new Vector3i(-1, 0, 0),
 			new Vector3i(0, -1, 0),
@@ -104,7 +104,7 @@ namespace VoxelEngine
 		}
 
 		// Notify adjacent chunks that chunk is unloading by nulling reference
-		private void ReleaseAdjChunks()
+		void ReleaseAdjChunks()
 		{
 			for (int i = 0; i < ADJ_CHUNK_SIZE; i++)
 			{
@@ -118,7 +118,7 @@ namespace VoxelEngine
 		}
 
 		// Try release the Unity game object back into the game object pool
-		private void ReleaseChunkGameObject()
+		void ReleaseChunkGameObject()
 		{
 			if (chunkGameObject == null)
 				return;
@@ -249,7 +249,7 @@ namespace VoxelEngine
 		}
 
 		// Flood the voxel data with the given voxel and update chunk fill type accordingly
-		private void FloodVoxelData(Voxel floodVoxel)
+		void FloodVoxelData(Voxel floodVoxel)
 		{
 			fillType = FillType.Null;
 			TerrainGeneratorBase.ChunkFillUpdate(this, floodVoxel);

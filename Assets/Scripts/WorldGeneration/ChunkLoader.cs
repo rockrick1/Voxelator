@@ -11,7 +11,7 @@ namespace WorldGeneration
         [SerializeField] float _noiseScale;
         [SerializeField] float _drawDistance;
 
-        public static ChunkLoader Instance { get; private set; }
+        public static ChunkLoader Instance { get; set; }
         public byte[,,] World => _world;
 
         Queue<UniTask> _chunkLoadQueue;

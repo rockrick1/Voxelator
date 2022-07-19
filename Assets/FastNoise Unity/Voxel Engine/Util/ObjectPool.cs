@@ -5,8 +5,8 @@ namespace VoxelEngine
 	// Generic pool class to hold and create objects
 	public class ObjectPool<T>
 	{
-		private int poolSize;
-		private Stack<T> poolObjects;
+		int poolSize;
+		Stack<T> poolObjects;
 
 		public int Count
 		{

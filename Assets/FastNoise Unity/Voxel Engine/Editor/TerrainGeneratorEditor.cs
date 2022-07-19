@@ -6,7 +6,7 @@ namespace VoxelEngine
 	[CustomEditor(typeof (TerrainGenerator), true)]
 	public class TerrainGeneratorEditor : UnityEditor.Editor
 	{
-		private bool elementsFoldout = true;
+		bool elementsFoldout = true;
 
 		public override void OnInspectorGUI()
 		{

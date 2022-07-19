@@ -34,11 +34,11 @@ namespace VoxelEngine
 		public static readonly Voxel Empty = new Voxel(-1f);
 
 #if STORE_AS_BYTE
-		private byte _densityByte;
+		byte _densityByte;
 
-		private const float DENSITY_BYTE_LIMIT = 8f;
-		private const float DENSITY_BYTE_CONVERT = 127.5f/DENSITY_BYTE_LIMIT;
-		private const float DENSITY_BYTE_CONVERT_INV = 1f/DENSITY_BYTE_CONVERT;
+		const float DENSITY_BYTE_LIMIT = 8f;
+		const float DENSITY_BYTE_CONVERT = 127.5f/DENSITY_BYTE_LIMIT;
+		const float DENSITY_BYTE_CONVERT_INV = 1f/DENSITY_BYTE_CONVERT;
 
 		public float density
 		{
@@ -57,7 +57,7 @@ namespace VoxelEngine
 		}
 
 #elif STORE_AS_HALF
-		private Half _densityHalf;
+		Half _densityHalf;
 
 		public float density
 		{

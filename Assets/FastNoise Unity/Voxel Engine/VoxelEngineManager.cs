@@ -25,19 +25,19 @@ namespace VoxelEngine
 
 		// More low level voxel engine settings can be found in Chunk.cs
 
-		private static ObjectPool<Chunk> chunkPool = new ObjectPool<Chunk>(128);
-		private Dictionary<Vector3i, Chunk> chunkMap = new Dictionary<Vector3i, Chunk>();
-		private ChunkQueue chunkQueue = new ChunkQueue();
-		private Queue<Vector3i> chunkMeshQueue = new Queue<Vector3i>();
-		private Stack<Chunk> chunkUnloadStack = new Stack<Chunk>();
+		static ObjectPool<Chunk> chunkPool = new ObjectPool<Chunk>(128);
+		Dictionary<Vector3i, Chunk> chunkMap = new Dictionary<Vector3i, Chunk>();
+		ChunkQueue chunkQueue = new ChunkQueue();
+		Queue<Vector3i> chunkMeshQueue = new Queue<Vector3i>();
+		Stack<Chunk> chunkUnloadStack = new Stack<Chunk>();
 
-		private int yLoadTick = -1;
-		private int unloadTick = 0;
-		private int threadCount = 0;
-		private int meshesLastFrame = 0;
-		private int updateTimerLastFrame = 0;
-		private float averageFPS = 0.0f;
-		private float deltaTimeFPS = 0.0f;
+		int yLoadTick = -1;
+		int unloadTick = 0;
+		int threadCount = 0;
+		int meshesLastFrame = 0;
+		int updateTimerLastFrame = 0;
+		float averageFPS = 0.0f;
+		float deltaTimeFPS = 0.0f;
 
 		public Light directionalLight;
 		public Light cameraLight;
@@ -165,7 +165,7 @@ namespace VoxelEngine
 			updateTimerLastFrame = (int)updateTimer.ElapsedMilliseconds;
 		}
 
-		private void UpdateLoadingQueue()
+		void UpdateLoadingQueue()
 		{
 			// All distance checks use the distance squared since it saves calulcating a square root for every distance
 			float loadDistanceSq = loadDistance * loadDistance;
@@ -217,7 +217,7 @@ namespace VoxelEngine
 				yLoadTick = 0;
 		}
 
-		private void CheckUnloadChunks()
+		void CheckUnloadChunks()
 		{
 			float unloadDistanceSq = loadDistance * loadDistance * unloadDistanceModifier * unloadDistanceModifier;
 
@@ -242,7 +242,7 @@ namespace VoxelEngine
 			}
 		}
 
-		private void LoadChunksFromQueue()
+		void LoadChunksFromQueue()
 		{
 			Vector3i chunkPos = new Vector3i();
 
@@ -262,7 +262,7 @@ namespace VoxelEngine
 			}
 		}
 
-		private void MeshChunksFromQueue(Stopwatch updateTimer)
+		void MeshChunksFromQueue(Stopwatch updateTimer)
 		{
 			// For debug info
 			meshesLastFrame = 0;

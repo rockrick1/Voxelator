@@ -9,7 +9,7 @@ namespace StarterAssets
     public partial class StarterAssetsDeployMenu : ScriptableObject
     {
         // prefab paths
-        private const string PlayerArmaturePrefabName = "PlayerArmature";
+        const string PlayerArmaturePrefabName = "PlayerArmature";
 
 #if STARTER_ASSETS_PACKAGES_CHECKED
         /// <summary>

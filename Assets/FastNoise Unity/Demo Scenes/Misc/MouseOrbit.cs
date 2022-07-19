@@ -11,8 +11,8 @@ public class MouseOrbit : MonoBehaviour
     public float yMinLimit = -20f;
     public float yMaxLimit = 80f;
 
-    private float x = 0.0f;
-    private float y = 0.0f;
+    float x = 0.0f;
+    float y = 0.0f;
 
     void Start()
     {

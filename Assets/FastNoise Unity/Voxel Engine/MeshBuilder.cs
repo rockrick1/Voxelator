@@ -7,11 +7,11 @@ namespace VoxelEngine
 {
 	public class MeshBuilder
 	{
-		private const int ADJ_BIT_SIZE = Chunk.BIT_SIZE + 1;
-		private const int ADJ_SIZE = 1 << ADJ_BIT_SIZE;
-		private const int ADJ_VOXEL_STEP_X = ADJ_SIZE * ADJ_SIZE;
-		private const int ADJ_VOXEL_STEP_Y = ADJ_SIZE;
-		private const int ADJ_VOXEL_STEP_Z = 1;
+		const int ADJ_BIT_SIZE = Chunk.BIT_SIZE + 1;
+		const int ADJ_SIZE = 1 << ADJ_BIT_SIZE;
+		const int ADJ_VOXEL_STEP_X = ADJ_SIZE * ADJ_SIZE;
+		const int ADJ_VOXEL_STEP_Y = ADJ_SIZE;
+		const int ADJ_VOXEL_STEP_Z = 1;
 
 		public static readonly Vector3[] directionNormals =
 		{
@@ -40,10 +40,10 @@ namespace VoxelEngine
 			Gradient,
 		}
 
-		private static Chunk chunk;
-		private static List<Quad> quads = new List<Quad>();
-		private static Dictionary<Vector3, int> lightLevels = new Dictionary<Vector3, int>();
-		private static Dictionary<int, Vector3> gradientVerts = new Dictionary<int, Vector3>();
+		static Chunk chunk;
+		static List<Quad> quads = new List<Quad>();
+		static Dictionary<Vector3, int> lightLevels = new Dictionary<Vector3, int>();
+		static Dictionary<int, Vector3> gradientVerts = new Dictionary<int, Vector3>();
 
 		public static void Clean()
 		{
@@ -77,7 +77,7 @@ namespace VoxelEngine
 			return mesh;
 		}
 
-		private static Mesh BasicMesh()
+		static Mesh BasicMesh()
 		{
 			TerrainGeneratorBase terrainGenerator = chunk.voxelEngineManager.terrainGenerator;
 			int index = -1;
@@ -228,7 +228,7 @@ namespace VoxelEngine
 			return mesh;
 		}
 
-		private static Mesh AmbientOcclusionMesh()
+		static Mesh AmbientOcclusionMesh()
 		{
 			TerrainGeneratorBase terrainGenerator = chunk.voxelEngineManager.terrainGenerator;
 			int index = -Chunk.VOXEL_STEP_X - Chunk.VOXEL_STEP_Y - Chunk.VOXEL_STEP_Z - 1;
@@ -448,7 +448,7 @@ namespace VoxelEngine
 			return mesh;
 		}
 
-		private static Color32 LightColorAdjust(Color32 color, int lightLevel)
+		static Color32 LightColorAdjust(Color32 color, int lightLevel)
 		{
 			if (lightLevel != 0)
 			{
@@ -463,7 +463,7 @@ namespace VoxelEngine
 		}
 
 		// Ambient light calulator for X normal faces
-		private static int LightLevelX(Vector3 vert, Color32 color, int localY, int localZ, float xOffset)
+		static int LightLevelX(Vector3 vert, Color32 color, int localY, int localZ, float xOffset)
 		{
 			int lightLevel = 0;
 			vert.x += xOffset;
@@ -530,7 +530,7 @@ namespace VoxelEngine
 		}
 
 		// Ambient light calulator for Y normal faces
-		private static int LightLevelY(Vector3 vert, Color32 color, int localX, int localZ, float yOffset)
+		static int LightLevelY(Vector3 vert, Color32 color, int localX, int localZ, float yOffset)
 		{
 			int lightLevel = 0;
 			vert.y += yOffset;
@@ -597,7 +597,7 @@ namespace VoxelEngine
 		}
 
 		// Ambient light calulator for Z normal faces
-		private static int LightLevelZ(Vector3 vert, Color32 color, int localX, int localY, float zOffset)
+		static int LightLevelZ(Vector3 vert, Color32 color, int localX, int localY, float zOffset)
 		{
 			int lightLevel = 0;
 			vert.z += zOffset;
@@ -663,11 +663,11 @@ namespace VoxelEngine
 			return lightLevel;
 		}
 
-		private static int FastFloor(float f) { return f >= 0.0f ? (int)f : (int)f - 1; }
-		private static int FastRound(float f) { return (f >= 0.0f) ? (int)(f + 0.5f) : (int)(f - 0.5f); }
+		static int FastFloor(float f) { return f >= 0.0f ? (int)f : (int)f - 1; }
+		static int FastRound(float f) { return (f >= 0.0f) ? (int)(f + 0.5f) : (int)(f - 0.5f); }
 
 
-		private static Mesh GradientMesh()
+		static Mesh GradientMesh()
 		{
 			TerrainGeneratorBase terrainGenerator = chunk.voxelEngineManager.terrainGenerator;
 			int index = -Chunk.VOXEL_STEP_X - Chunk.VOXEL_STEP_Y - Chunk.VOXEL_STEP_Z - 1;
@@ -925,7 +925,7 @@ namespace VoxelEngine
 		}
 
 		// Calculate difference vector from the isosurface
-		private static Vector3 VoxelGradient(int localX, int localY, int localZ)
+		static Vector3 VoxelGradient(int localX, int localY, int localZ)
 		{
 			int index = localX * Chunk.VOXEL_STEP_X + localY * Chunk.VOXEL_STEP_Y + localZ * Chunk.VOXEL_STEP_Z;
 
@@ -941,7 +941,7 @@ namespace VoxelEngine
 		}
 
 		// Get gradient of 2x2x2 set of voxels
-		private static Vector3 Gradient(float a, float b, float c, float d, float e, float f, float g, float h)
+		static Vector3 Gradient(float a, float b, float c, float d, float e, float f, float g, float h)
 		{
 			float v = (a + b + c + d + e + f + g + h) * -0.125f;
 
@@ -957,12 +957,12 @@ namespace VoxelEngine
 			return v3;
 		}
 
-		private static int AdjIndex(int localX, int localY, int localZ)
+		static int AdjIndex(int localX, int localY, int localZ)
 		{
 			return (localZ + 1) | ((localY + 1) << ADJ_BIT_SIZE) | ((localX + 1) << (ADJ_BIT_SIZE * 2));
 		}
 
-		private static Voxel GetAdjVoxel(int voxelIndex, int localX, int localY, int localZ)
+		static Voxel GetAdjVoxel(int voxelIndex, int localX, int localY, int localZ)
 		{
 			int adjIndex = -2;
 
@@ -988,7 +988,7 @@ namespace VoxelEngine
 			return chunk.adjChunks[Math.Min(adjIndex, 6)].voxelData[voxelIndex];
 		}
 
-		private static Voxel GetAdjVoxel(int localX, int localY, int localZ)
+		static Voxel GetAdjVoxel(int localX, int localY, int localZ)
 		{
 			int adjIndex = -2;
 
@@ -1014,7 +1014,7 @@ namespace VoxelEngine
 			return chunk.adjChunks[Math.Min(adjIndex, 6)].GetVoxelUnsafe(localX, localY, localZ);
 		}
 
-		private static Voxel GetAdjVoxelLeft(int voxelIndex, int localX)
+		static Voxel GetAdjVoxelLeft(int voxelIndex, int localX)
 		{
 			voxelIndex -= Chunk.VOXEL_STEP_X;
 
@@ -1025,7 +1025,7 @@ namespace VoxelEngine
 			return chunk.adjChunks[(int)Chunk.AdjDirection.Left].voxelData[voxelIndex];
 		}
 
-		private static Voxel GetAdjVoxelDown(int voxelIndex, int localY)
+		static Voxel GetAdjVoxelDown(int voxelIndex, int localY)
 		{
 			voxelIndex -= Chunk.VOXEL_STEP_Y;
 
@@ -1036,7 +1036,7 @@ namespace VoxelEngine
 			return chunk.adjChunks[(int)Chunk.AdjDirection.Down].voxelData[voxelIndex];
 		}
 
-		private static Voxel GetAdjVoxelBack(int voxelIndex, int localZ)
+		static Voxel GetAdjVoxelBack(int voxelIndex, int localZ)
 		{
 			voxelIndex -= Chunk.VOXEL_STEP_Z;
 

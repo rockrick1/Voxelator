@@ -7,7 +7,7 @@ public class FastNoiseMeshWarp : MonoBehaviour
 	public FastNoiseUnity fastNoiseUnity;
 	public bool fractal;
 
-	private Dictionary<GameObject, Mesh> originalMeshes = new Dictionary<GameObject, Mesh>();
+	Dictionary<GameObject, Mesh> originalMeshes = new Dictionary<GameObject, Mesh>();
 
 	// Use this for initialization
 	void Start ()

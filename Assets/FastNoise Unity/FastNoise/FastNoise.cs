@@ -40,8 +40,8 @@ using System.Runtime.CompilerServices;
 
 public class FastNoise
 {
-	private const Int16 FN_INLINE = 256; //(Int16)MethodImplOptions.AggressiveInlining;
-	private const int FN_CELLULAR_INDEX_MAX = 3;
+	const Int16 FN_INLINE = 256; //(Int16)MethodImplOptions.AggressiveInlining;
+	const int FN_CELLULAR_INDEX_MAX = 3;
 
 	public enum NoiseType { Value, ValueFractal, Perlin, PerlinFractal, Simplex, SimplexFractal, Cellular, WhiteNoise, Cubic, CubicFractal };
 	public enum Interp { Linear, Hermite, Quintic };
@@ -49,26 +49,26 @@ public class FastNoise
 	public enum CellularDistanceFunction { Euclidean, Manhattan, Natural };
 	public enum CellularReturnType { CellValue, NoiseLookup, Distance, Distance2, Distance2Add, Distance2Sub, Distance2Mul, Distance2Div };
 
-	private int m_seed = 1337;
-	private FN_DECIMAL m_frequency = (FN_DECIMAL)0.01;
-	private Interp m_interp = Interp.Quintic;
-	private NoiseType m_noiseType = NoiseType.Simplex;
+	int m_seed = 1337;
+	FN_DECIMAL m_frequency = (FN_DECIMAL)0.01;
+	Interp m_interp = Interp.Quintic;
+	NoiseType m_noiseType = NoiseType.Simplex;
 
-	private int m_octaves = 3;
-	private FN_DECIMAL m_lacunarity = (FN_DECIMAL)2.0;
-	private FN_DECIMAL m_gain = (FN_DECIMAL)0.5;
-	private FractalType m_fractalType = FractalType.FBM;
+	int m_octaves = 3;
+	FN_DECIMAL m_lacunarity = (FN_DECIMAL)2.0;
+	FN_DECIMAL m_gain = (FN_DECIMAL)0.5;
+	FractalType m_fractalType = FractalType.FBM;
 
-	private FN_DECIMAL m_fractalBounding;
+	FN_DECIMAL m_fractalBounding;
 
-	private CellularDistanceFunction m_cellularDistanceFunction = CellularDistanceFunction.Euclidean;
-	private CellularReturnType m_cellularReturnType = CellularReturnType.CellValue;
-	private FastNoise m_cellularNoiseLookup = null;
-	private int m_cellularDistanceIndex0 = 0;
-	private int m_cellularDistanceIndex1 = 1;
-	private float m_cellularJitter = 0.45f;
+	CellularDistanceFunction m_cellularDistanceFunction = CellularDistanceFunction.Euclidean;
+	CellularReturnType m_cellularReturnType = CellularReturnType.CellValue;
+	FastNoise m_cellularNoiseLookup = null;
+	int m_cellularDistanceIndex0 = 0;
+	int m_cellularDistanceIndex1 = 1;
+	float m_cellularJitter = 0.45f;
 
-	private FN_DECIMAL m_gradientPerturbAmp = (FN_DECIMAL)1.0;
+	FN_DECIMAL m_gradientPerturbAmp = (FN_DECIMAL)1.0;
 
 	public FastNoise(int seed = 1337)
 	{
@@ -157,7 +157,7 @@ public class FastNoise
 	// Default: 1.0
 	public void SetGradientPerturbAmp(FN_DECIMAL gradientPerturbAmp) { m_gradientPerturbAmp = gradientPerturbAmp; }
 
-	private struct Float2
+	struct Float2
 	{
 		public readonly FN_DECIMAL x, y;
 		public Float2(FN_DECIMAL x, FN_DECIMAL y)
@@ -167,7 +167,7 @@ public class FastNoise
 		}
 	}
 
-	private struct Float3
+	struct Float3
 	{
 		public readonly FN_DECIMAL x, y, z;
 		public Float3(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
@@ -178,19 +178,19 @@ public class FastNoise
 		}
 	}
 
-	private static readonly Float2[] GRAD_2D = {
+	static readonly Float2[] GRAD_2D = {
 		new Float2(-1,-1), new Float2( 1,-1), new Float2(-1, 1), new Float2( 1, 1),
 		new Float2( 0,-1), new Float2(-1, 0), new Float2( 0, 1), new Float2( 1, 0),
 	};
 
-	private static readonly Float3[] GRAD_3D = {
+	static readonly Float3[] GRAD_3D = {
 		new Float3( 1, 1, 0), new Float3(-1, 1, 0), new Float3( 1,-1, 0), new Float3(-1,-1, 0),
 		new Float3( 1, 0, 1), new Float3(-1, 0, 1), new Float3( 1, 0,-1), new Float3(-1, 0,-1),
 		new Float3( 0, 1, 1), new Float3( 0,-1, 1), new Float3( 0, 1,-1), new Float3( 0,-1,-1),
 		new Float3( 1, 1, 0), new Float3( 0,-1, 1), new Float3(-1, 1, 0), new Float3( 0,-1,-1),
 	};
 
-	private static readonly Float2[] CELL_2D =
+	static readonly Float2[] CELL_2D =
 	{
 		new Float2(-0.2700222198f, -0.9628540911f), new Float2(0.3863092627f, -0.9223693152f), new Float2(0.04444859006f, -0.999011673f), new Float2(-0.5992523158f, -0.8005602176f), new Float2(-0.7819280288f, 0.6233687174f), new Float2(0.9464672271f, 0.3227999196f), new Float2(-0.6514146797f, -0.7587218957f), new Float2(0.9378472289f, 0.347048376f),
 		new Float2(-0.8497875957f, -0.5271252623f), new Float2(-0.879042592f, 0.4767432447f), new Float2(-0.892300288f, -0.4514423508f), new Float2(-0.379844434f, -0.9250503802f), new Float2(-0.9951650832f, 0.0982163789f), new Float2(0.7724397808f, -0.6350880136f), new Float2(0.7573283322f, -0.6530343002f), new Float2(-0.9928004525f, -0.119780055f),
@@ -226,7 +226,7 @@ public class FastNoise
 		new Float2(0.01426758847f, -0.9998982128f), new Float2(-0.6734383991f, 0.7392433447f), new Float2(0.639412098f, -0.7688642071f), new Float2(0.9211571421f, 0.3891908523f), new Float2(-0.146637214f, -0.9891903394f), new Float2(-0.782318098f, 0.6228791163f), new Float2(-0.5039610839f, -0.8637263605f), new Float2(-0.7743120191f, -0.6328039957f),
 	};
 
-	private static readonly Float3[] CELL_3D =
+	static readonly Float3[] CELL_3D =
 	{
 		new Float3(-0.7292736885f, -0.6618439697f, 0.1735581948f), new Float3(0.790292081f, -0.5480887466f, -0.2739291014f), new Float3(0.7217578935f, 0.6226212466f, -0.3023380997f), new Float3(0.565683137f, -0.8208298145f, -0.0790000257f), new Float3(0.760049034f, -0.5555979497f, -0.3370999617f), new Float3(0.3713945616f, 0.5011264475f, 0.7816254623f), new Float3(-0.1277062463f, -0.4254438999f, -0.8959289049f), new Float3(-0.2881560924f, -0.5815838982f, 0.7607405838f),
 		new Float3(0.5849561111f, -0.662820239f, -0.4674352136f), new Float3(0.3307171178f, 0.0391653737f, 0.94291689f), new Float3(0.8712121778f, -0.4113374369f, -0.2679381538f), new Float3(0.580981015f, 0.7021915846f, 0.4115677815f), new Float3(0.503756873f, 0.6330056931f, -0.5878203852f), new Float3(0.4493712205f, 0.601390195f, 0.6606022552f), new Float3(-0.6878403724f, 0.09018890807f, -0.7202371714f), new Float3(-0.5958956522f, -0.6469350577f, 0.475797649f),
@@ -263,28 +263,28 @@ public class FastNoise
 	};
 
 	[MethodImplAttribute(FN_INLINE)]
-	private static int FastFloor(FN_DECIMAL f) { return (f >= 0 ? (int)f : (int)f - 1); }
+	static int FastFloor(FN_DECIMAL f) { return (f >= 0 ? (int)f : (int)f - 1); }
 
 	[MethodImplAttribute(FN_INLINE)]
-	private static int FastRound(FN_DECIMAL f) { return (f >= 0) ? (int)(f + (FN_DECIMAL)0.5) : (int)(f - (FN_DECIMAL)0.5); }
+	static int FastRound(FN_DECIMAL f) { return (f >= 0) ? (int)(f + (FN_DECIMAL)0.5) : (int)(f - (FN_DECIMAL)0.5); }
 
 	[MethodImplAttribute(FN_INLINE)]
-	private static FN_DECIMAL Lerp(FN_DECIMAL a, FN_DECIMAL b, FN_DECIMAL t) { return a + t * (b - a); }
+	static FN_DECIMAL Lerp(FN_DECIMAL a, FN_DECIMAL b, FN_DECIMAL t) { return a + t * (b - a); }
 
 	[MethodImplAttribute(FN_INLINE)]
-	private static FN_DECIMAL InterpHermiteFunc(FN_DECIMAL t) { return t * t * (3 - 2 * t); }
+	static FN_DECIMAL InterpHermiteFunc(FN_DECIMAL t) { return t * t * (3 - 2 * t); }
 
 	[MethodImplAttribute(FN_INLINE)]
-	private static FN_DECIMAL InterpQuinticFunc(FN_DECIMAL t) { return t * t * t * (t * (t * 6 - 15) + 10); }
+	static FN_DECIMAL InterpQuinticFunc(FN_DECIMAL t) { return t * t * t * (t * (t * 6 - 15) + 10); }
 
 	[MethodImplAttribute(FN_INLINE)]
-	private static FN_DECIMAL CubicLerp(FN_DECIMAL a, FN_DECIMAL b, FN_DECIMAL c, FN_DECIMAL d, FN_DECIMAL t)
+	static FN_DECIMAL CubicLerp(FN_DECIMAL a, FN_DECIMAL b, FN_DECIMAL c, FN_DECIMAL d, FN_DECIMAL t)
 	{
 		FN_DECIMAL p = (d - c) - (a - b);
 		return t * t * t * p + t * t * ((a - b) - p) + t * (c - a) + b;
 	}
 
-	private void CalculateFractalBounding()
+	void CalculateFractalBounding()
 	{
 		FN_DECIMAL amp = m_gain;
 		FN_DECIMAL ampFractal = 1;
@@ -297,13 +297,13 @@ public class FastNoise
 	}
 
 	// Hashing
-	private const int X_PRIME = 1619;
-	private const int Y_PRIME = 31337;
-	private const int Z_PRIME = 6971;
-	private const int W_PRIME = 1013;
+	const int X_PRIME = 1619;
+	const int Y_PRIME = 31337;
+	const int Z_PRIME = 6971;
+	const int W_PRIME = 1013;
 
 	[MethodImplAttribute(FN_INLINE)]
-	private static int Hash2D(int seed, int x, int y)
+	static int Hash2D(int seed, int x, int y)
 	{
 		int hash = seed;
 		hash ^= X_PRIME * x;
@@ -316,7 +316,7 @@ public class FastNoise
 	}
 
 	[MethodImplAttribute(FN_INLINE)]
-	private static int Hash3D(int seed, int x, int y, int z)
+	static int Hash3D(int seed, int x, int y, int z)
 	{
 		int hash = seed;
 		hash ^= X_PRIME * x;
@@ -330,7 +330,7 @@ public class FastNoise
 	}
 
 	[MethodImplAttribute(FN_INLINE)]
-	private static int Hash4D(int seed, int x, int y, int z, int w)
+	static int Hash4D(int seed, int x, int y, int z, int w)
 	{
 		int hash = seed;
 		hash ^= X_PRIME * x;
@@ -345,7 +345,7 @@ public class FastNoise
 	}
 
 	[MethodImplAttribute(FN_INLINE)]
-	private static FN_DECIMAL ValCoord2D(int seed, int x, int y)
+	static FN_DECIMAL ValCoord2D(int seed, int x, int y)
 	{
 		int n = seed;
 		n ^= X_PRIME * x;
@@ -355,7 +355,7 @@ public class FastNoise
 	}
 
 	[MethodImplAttribute(FN_INLINE)]
-	private static FN_DECIMAL ValCoord3D(int seed, int x, int y, int z)
+	static FN_DECIMAL ValCoord3D(int seed, int x, int y, int z)
 	{
 		int n = seed;
 		n ^= X_PRIME * x;
@@ -366,7 +366,7 @@ public class FastNoise
 	}
 
 	[MethodImplAttribute(FN_INLINE)]
-	private static FN_DECIMAL ValCoord4D(int seed, int x, int y, int z, int w)
+	static FN_DECIMAL ValCoord4D(int seed, int x, int y, int z, int w)
 	{
 		int n = seed;
 		n ^= X_PRIME * x;
@@ -378,7 +378,7 @@ public class FastNoise
 	}
 
 	[MethodImplAttribute(FN_INLINE)]
-	private static FN_DECIMAL GradCoord2D(int seed, int x, int y, FN_DECIMAL xd, FN_DECIMAL yd)
+	static FN_DECIMAL GradCoord2D(int seed, int x, int y, FN_DECIMAL xd, FN_DECIMAL yd)
 	{
 		int hash = seed;
 		hash ^= X_PRIME * x;
@@ -393,7 +393,7 @@ public class FastNoise
 	}
 
 	[MethodImplAttribute(FN_INLINE)]
-	private static FN_DECIMAL GradCoord3D(int seed, int x, int y, int z, FN_DECIMAL xd, FN_DECIMAL yd, FN_DECIMAL zd)
+	static FN_DECIMAL GradCoord3D(int seed, int x, int y, int z, FN_DECIMAL xd, FN_DECIMAL yd, FN_DECIMAL zd)
 	{
 		int hash = seed;
 		hash ^= X_PRIME * x;
@@ -409,7 +409,7 @@ public class FastNoise
 	}
 
 	[MethodImplAttribute(FN_INLINE)]
-	private static FN_DECIMAL GradCoord4D(int seed, int x, int y, int z, int w, FN_DECIMAL xd, FN_DECIMAL yd, FN_DECIMAL zd, FN_DECIMAL wd)
+	static FN_DECIMAL GradCoord4D(int seed, int x, int y, int z, int w, FN_DECIMAL xd, FN_DECIMAL yd, FN_DECIMAL zd, FN_DECIMAL wd)
 	{
 		int hash = seed;
 		hash ^= X_PRIME * x;
@@ -594,7 +594,7 @@ public class FastNoise
 
 	// White Noise
 	[MethodImplAttribute(FN_INLINE)]
-	private int FloatCast2Int(FN_DECIMAL f)
+	int FloatCast2Int(FN_DECIMAL f)
 	{
 		var i = BitConverter.DoubleToInt64Bits(f);
 
@@ -663,7 +663,7 @@ public class FastNoise
 		}
 	}
 
-	private FN_DECIMAL SingleValueFractalFBM(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SingleValueFractalFBM(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = SingleValue(seed, x, y, z);
@@ -682,7 +682,7 @@ public class FastNoise
 		return sum * m_fractalBounding;
 	}
 
-	private FN_DECIMAL SingleValueFractalBillow(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SingleValueFractalBillow(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = Math.Abs(SingleValue(seed, x, y, z)) * 2 - 1;
@@ -701,7 +701,7 @@ public class FastNoise
 		return sum * m_fractalBounding;
 	}
 
-	private FN_DECIMAL SingleValueFractalRigidMulti(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SingleValueFractalRigidMulti(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = 1 - Math.Abs(SingleValue(seed, x, y, z));
@@ -725,7 +725,7 @@ public class FastNoise
 		return SingleValue(m_seed, x * m_frequency, y * m_frequency, z * m_frequency);
 	}
 
-	private FN_DECIMAL SingleValue(int seed, FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SingleValue(int seed, FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int x0 = FastFloor(x);
 		int y0 = FastFloor(y);
@@ -784,7 +784,7 @@ public class FastNoise
 		}
 	}
 
-	private FN_DECIMAL SingleValueFractalFBM(FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SingleValueFractalFBM(FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = SingleValue(seed, x, y);
@@ -802,7 +802,7 @@ public class FastNoise
 		return sum * m_fractalBounding;
 	}
 
-	private FN_DECIMAL SingleValueFractalBillow(FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SingleValueFractalBillow(FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = Math.Abs(SingleValue(seed, x, y)) * 2 - 1;
@@ -819,7 +819,7 @@ public class FastNoise
 		return sum * m_fractalBounding;
 	}
 
-	private FN_DECIMAL SingleValueFractalRigidMulti(FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SingleValueFractalRigidMulti(FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = 1 - Math.Abs(SingleValue(seed, x, y));
@@ -842,7 +842,7 @@ public class FastNoise
 		return SingleValue(m_seed, x * m_frequency, y * m_frequency);
 	}
 
-	private FN_DECIMAL SingleValue(int seed, FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SingleValue(int seed, FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int x0 = FastFloor(x);
 		int y0 = FastFloor(y);
@@ -893,7 +893,7 @@ public class FastNoise
 		}
 	}
 
-	private FN_DECIMAL SinglePerlinFractalFBM(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SinglePerlinFractalFBM(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = SinglePerlin(seed, x, y, z);
@@ -912,7 +912,7 @@ public class FastNoise
 		return sum * m_fractalBounding;
 	}
 
-	private FN_DECIMAL SinglePerlinFractalBillow(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SinglePerlinFractalBillow(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = Math.Abs(SinglePerlin(seed, x, y, z)) * 2 - 1;
@@ -931,7 +931,7 @@ public class FastNoise
 		return sum * m_fractalBounding;
 	}
 
-	private FN_DECIMAL SinglePerlinFractalRigidMulti(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SinglePerlinFractalRigidMulti(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = 1 - Math.Abs(SinglePerlin(seed, x, y, z));
@@ -955,7 +955,7 @@ public class FastNoise
 		return SinglePerlin(m_seed, x * m_frequency, y * m_frequency, z * m_frequency);
 	}
 
-	private FN_DECIMAL SinglePerlin(int seed, FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SinglePerlin(int seed, FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int x0 = FastFloor(x);
 		int y0 = FastFloor(y);
@@ -1021,7 +1021,7 @@ public class FastNoise
 		}
 	}
 
-	private FN_DECIMAL SinglePerlinFractalFBM(FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SinglePerlinFractalFBM(FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = SinglePerlin(seed, x, y);
@@ -1039,7 +1039,7 @@ public class FastNoise
 		return sum * m_fractalBounding;
 	}
 
-	private FN_DECIMAL SinglePerlinFractalBillow(FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SinglePerlinFractalBillow(FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = Math.Abs(SinglePerlin(seed, x, y)) * 2 - 1;
@@ -1057,7 +1057,7 @@ public class FastNoise
 		return sum * m_fractalBounding;
 	}
 
-	private FN_DECIMAL SinglePerlinFractalRigidMulti(FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SinglePerlinFractalRigidMulti(FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = 1 - Math.Abs(SinglePerlin(seed, x, y));
@@ -1080,7 +1080,7 @@ public class FastNoise
 		return SinglePerlin(m_seed, x * m_frequency, y * m_frequency);
 	}
 
-	private FN_DECIMAL SinglePerlin(int seed, FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SinglePerlin(int seed, FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int x0 = FastFloor(x);
 		int y0 = FastFloor(y);
@@ -1136,7 +1136,7 @@ public class FastNoise
 		}
 	}
 
-	private FN_DECIMAL SingleSimplexFractalFBM(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SingleSimplexFractalFBM(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = SingleSimplex(seed, x, y, z);
@@ -1155,7 +1155,7 @@ public class FastNoise
 		return sum * m_fractalBounding;
 	}
 
-	private FN_DECIMAL SingleSimplexFractalBillow(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SingleSimplexFractalBillow(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = Math.Abs(SingleSimplex(seed, x, y, z)) * 2 - 1;
@@ -1174,7 +1174,7 @@ public class FastNoise
 		return sum * m_fractalBounding;
 	}
 
-	private FN_DECIMAL SingleSimplexFractalRigidMulti(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SingleSimplexFractalRigidMulti(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = 1 - Math.Abs(SingleSimplex(seed, x, y, z));
@@ -1198,11 +1198,11 @@ public class FastNoise
 		return SingleSimplex(m_seed, x * m_frequency, y * m_frequency, z * m_frequency);
 	}
 
-	private const FN_DECIMAL F3 = (FN_DECIMAL)(1.0 / 3.0);
-	private const FN_DECIMAL G3 = (FN_DECIMAL)(1.0 / 6.0);
-	private const FN_DECIMAL G33 = G3 * 3 - 1;
+	const FN_DECIMAL F3 = (FN_DECIMAL)(1.0 / 3.0);
+	const FN_DECIMAL G3 = (FN_DECIMAL)(1.0 / 6.0);
+	const FN_DECIMAL G33 = G3 * 3 - 1;
 
-	private FN_DECIMAL SingleSimplex(int seed, FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SingleSimplex(int seed, FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		FN_DECIMAL t = (x + y + z) * F3;
 		int i = FastFloor(x + t);
@@ -1313,7 +1313,7 @@ public class FastNoise
 		}
 	}
 
-	private FN_DECIMAL SingleSimplexFractalFBM(FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SingleSimplexFractalFBM(FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = SingleSimplex(seed, x, y);
@@ -1331,7 +1331,7 @@ public class FastNoise
 		return sum * m_fractalBounding;
 	}
 
-	private FN_DECIMAL SingleSimplexFractalBillow(FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SingleSimplexFractalBillow(FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = Math.Abs(SingleSimplex(seed, x, y)) * 2 - 1;
@@ -1349,7 +1349,7 @@ public class FastNoise
 		return sum * m_fractalBounding;
 	}
 
-	private FN_DECIMAL SingleSimplexFractalRigidMulti(FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SingleSimplexFractalRigidMulti(FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = 1 - Math.Abs(SingleSimplex(seed, x, y));
@@ -1372,10 +1372,10 @@ public class FastNoise
 		return SingleSimplex(m_seed, x * m_frequency, y * m_frequency);
 	}
 
-	private const FN_DECIMAL F2 = (FN_DECIMAL)(1.0 / 2.0);
-	private const FN_DECIMAL G2 = (FN_DECIMAL)(1.0 / 4.0);
+	const FN_DECIMAL F2 = (FN_DECIMAL)(1.0 / 2.0);
+	const FN_DECIMAL G2 = (FN_DECIMAL)(1.0 / 4.0);
 
-	private FN_DECIMAL SingleSimplex(int seed, FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SingleSimplex(int seed, FN_DECIMAL x, FN_DECIMAL y)
 	{
 		FN_DECIMAL t = (x + y) * F2;
 		int i = FastFloor(x + t);
@@ -1437,7 +1437,7 @@ public class FastNoise
 		return SingleSimplex(m_seed, x * m_frequency, y * m_frequency, z * m_frequency, w * m_frequency);
 	}
 
-	private static readonly byte[] SIMPLEX_4D =
+	static readonly byte[] SIMPLEX_4D =
 	{
 		0,1,2,3,0,1,3,2,0,0,0,0,0,2,3,1,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,0,
 		0,2,1,3,0,0,0,0,0,3,1,2,0,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,1,3,2,0,
@@ -1449,10 +1449,10 @@ public class FastNoise
 		2,1,0,3,0,0,0,0,0,0,0,0,0,0,0,0,3,1,0,2,0,0,0,0,3,2,0,1,3,2,1,0
 	};
 
-	private const FN_DECIMAL F4 = (FN_DECIMAL)((2.23606797 - 1.0) / 4.0);
-	private const FN_DECIMAL G4 = (FN_DECIMAL)((5.0 - 2.23606797) / 20.0);
+	const FN_DECIMAL F4 = (FN_DECIMAL)((2.23606797 - 1.0) / 4.0);
+	const FN_DECIMAL G4 = (FN_DECIMAL)((5.0 - 2.23606797) / 20.0);
 
-	private FN_DECIMAL SingleSimplex(int seed, FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z, FN_DECIMAL w)
+	FN_DECIMAL SingleSimplex(int seed, FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z, FN_DECIMAL w)
 	{
 		FN_DECIMAL n0, n1, n2, n3, n4;
 		FN_DECIMAL t = (x + y + z + w) * F4;
@@ -1567,7 +1567,7 @@ public class FastNoise
 		}
 	}
 
-	private FN_DECIMAL SingleCubicFractalFBM(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SingleCubicFractalFBM(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = SingleCubic(seed, x, y, z);
@@ -1587,7 +1587,7 @@ public class FastNoise
 		return sum * m_fractalBounding;
 	}
 
-	private FN_DECIMAL SingleCubicFractalBillow(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SingleCubicFractalBillow(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = Math.Abs(SingleCubic(seed, x, y, z)) * 2 - 1;
@@ -1607,7 +1607,7 @@ public class FastNoise
 		return sum * m_fractalBounding;
 	}
 
-	private FN_DECIMAL SingleCubicFractalRigidMulti(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SingleCubicFractalRigidMulti(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = 1 - Math.Abs(SingleCubic(seed, x, y, z));
@@ -1632,9 +1632,9 @@ public class FastNoise
 		return SingleCubic(m_seed, x * m_frequency, y * m_frequency, z * m_frequency);
 	}
 
-	private const FN_DECIMAL CUBIC_3D_BOUNDING = 1 / (FN_DECIMAL)(1.5 * 1.5 * 1.5);
+	const FN_DECIMAL CUBIC_3D_BOUNDING = 1 / (FN_DECIMAL)(1.5 * 1.5 * 1.5);
 
-	private FN_DECIMAL SingleCubic(int seed, FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SingleCubic(int seed, FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int x1 = FastFloor(x);
 		int y1 = FastFloor(y);
@@ -1701,7 +1701,7 @@ public class FastNoise
 		}
 	}
 
-	private FN_DECIMAL SingleCubicFractalFBM(FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SingleCubicFractalFBM(FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = SingleCubic(seed, x, y);
@@ -1720,7 +1720,7 @@ public class FastNoise
 		return sum * m_fractalBounding;
 	}
 
-	private FN_DECIMAL SingleCubicFractalBillow(FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SingleCubicFractalBillow(FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = Math.Abs(SingleCubic(seed, x, y)) * 2 - 1;
@@ -1739,7 +1739,7 @@ public class FastNoise
 		return sum * m_fractalBounding;
 	}
 
-	private FN_DECIMAL SingleCubicFractalRigidMulti(FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SingleCubicFractalRigidMulti(FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int seed = m_seed;
 		FN_DECIMAL sum = 1 - Math.Abs(SingleCubic(seed, x, y));
@@ -1766,9 +1766,9 @@ public class FastNoise
 		return SingleCubic(0, x, y);
 	}
 
-	private const FN_DECIMAL CUBIC_2D_BOUNDING = 1 / (FN_DECIMAL)(1.5 * 1.5);
+	const FN_DECIMAL CUBIC_2D_BOUNDING = 1 / (FN_DECIMAL)(1.5 * 1.5);
 
-	private FN_DECIMAL SingleCubic(int seed, FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SingleCubic(int seed, FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int x1 = FastFloor(x);
 		int y1 = FastFloor(y);
@@ -1813,7 +1813,7 @@ public class FastNoise
 		}
 	}
 
-	private FN_DECIMAL SingleCellular(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SingleCellular(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int xr = FastRound(x);
 		int yr = FastRound(y);
@@ -1920,7 +1920,7 @@ public class FastNoise
 		}
 	}
 
-	private FN_DECIMAL SingleCellular2Edge(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
+	FN_DECIMAL SingleCellular2Edge(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z)
 	{
 		int xr = FastRound(x);
 		int yr = FastRound(y);
@@ -2033,7 +2033,7 @@ public class FastNoise
 		}
 	}
 
-	private FN_DECIMAL SingleCellular(FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SingleCellular(FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int xr = FastRound(x);
 		int yr = FastRound(y);
@@ -2125,7 +2125,7 @@ public class FastNoise
 		}
 	}
 
-	private FN_DECIMAL SingleCellular2Edge(FN_DECIMAL x, FN_DECIMAL y)
+	FN_DECIMAL SingleCellular2Edge(FN_DECIMAL x, FN_DECIMAL y)
 	{
 		int xr = FastRound(x);
 		int yr = FastRound(y);
@@ -2229,7 +2229,7 @@ public class FastNoise
 		}
 	}
 
-	private void SingleGradientPerturb(int seed, FN_DECIMAL perturbAmp, FN_DECIMAL frequency, ref FN_DECIMAL x, ref FN_DECIMAL y, ref FN_DECIMAL z)
+	void SingleGradientPerturb(int seed, FN_DECIMAL perturbAmp, FN_DECIMAL frequency, ref FN_DECIMAL x, ref FN_DECIMAL y, ref FN_DECIMAL z)
 	{
 		FN_DECIMAL xf = x * frequency;
 		FN_DECIMAL yf = y * frequency;
@@ -2321,7 +2321,7 @@ public class FastNoise
 		}
 	}
 
-	private void SingleGradientPerturb(int seed, FN_DECIMAL perturbAmp, FN_DECIMAL frequency, ref FN_DECIMAL x, ref FN_DECIMAL y)
+	void SingleGradientPerturb(int seed, FN_DECIMAL perturbAmp, FN_DECIMAL frequency, ref FN_DECIMAL x, ref FN_DECIMAL y)
 	{
 		FN_DECIMAL xf = x * frequency;
 		FN_DECIMAL yf = y * frequency;

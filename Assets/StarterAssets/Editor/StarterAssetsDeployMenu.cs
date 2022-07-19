@@ -16,18 +16,18 @@ namespace StarterAssets
         public const string MenuRoot = "Tools/Starter Assets";
 
         // prefab names
-        private const string MainCameraPrefabName = "MainCamera";
-        private const string PlayerCapsulePrefabName = "PlayerCapsule";
+        const string MainCameraPrefabName = "MainCamera";
+        const string PlayerCapsulePrefabName = "PlayerCapsule";
 
         // names in hierarchy
-        private const string CinemachineVirtualCameraName = "PlayerFollowCamera";
+        const string CinemachineVirtualCameraName = "PlayerFollowCamera";
 
         // tags
-        private const string PlayerTag = "Player";
-        private const string MainCameraTag = "MainCamera";
-        private const string CinemachineTargetTag = "CinemachineTarget";
+        const string PlayerTag = "Player";
+        const string MainCameraTag = "MainCamera";
+        const string CinemachineTargetTag = "CinemachineTarget";
 
-        private static GameObject _cinemachineVirtualCamera;
+        static GameObject _cinemachineVirtualCamera;
         
         /// <summary>
         /// Deletes the scripting define set by the Package Checker.
@@ -40,7 +40,7 @@ namespace StarterAssets
         }
 
 #if STARTER_ASSETS_PACKAGES_CHECKED
-        private static void CheckCameras(Transform targetParent, string prefabFolder)
+        static void CheckCameras(Transform targetParent, string prefabFolder)
         {
             CheckMainCamera(prefabFolder);
 
@@ -77,7 +77,7 @@ namespace StarterAssets
             CheckVirtualCameraFollowReference(target, _cinemachineVirtualCamera);
         }
 
-        private static void CheckMainCamera(string inFolder)
+        static void CheckMainCamera(string inFolder)
         {
             GameObject[] mainCameras = GameObject.FindGameObjectsWithTag(MainCameraTag);
 
@@ -101,7 +101,7 @@ namespace StarterAssets
             }
         }
 
-        private static void CheckVirtualCameraFollowReference(GameObject target,
+        static void CheckVirtualCameraFollowReference(GameObject target,
             GameObject cinemachineVirtualCamera)
         {
             var serializedObject =
@@ -111,7 +111,7 @@ namespace StarterAssets
             serializedObject.ApplyModifiedProperties();
         }
 
-        private static bool TryLocatePrefab(string name, string[] inFolders, System.Type[] requiredComponentTypes, out GameObject prefab, out string path)
+        static bool TryLocatePrefab(string name, string[] inFolders, System.Type[] requiredComponentTypes, out GameObject prefab, out string path)
         {
             // Locate the player armature
             string[] allPrefabs = AssetDatabase.FindAssets("t:Prefab", inFolders);
@@ -155,7 +155,7 @@ namespace StarterAssets
             return false;
         }
 
-        private static void HandleInstantiatingPrefab(GameObject prefab, out GameObject prefabInstance)
+        static void HandleInstantiatingPrefab(GameObject prefab, out GameObject prefabInstance)
         {
             prefabInstance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
             Undo.RegisterCreatedObjectUndo(prefabInstance, "Instantiate Starter Asset Prefab");

@@ -18,8 +18,8 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
     public bool invertYOutputValue;
 
     //Stored Pointer Values
-    private Vector2 pointerDownPosition;
-    private Vector2 currentPointerPosition;
+    Vector2 pointerDownPosition;
+    Vector2 currentPointerPosition;
 
     [Header("Output")]
     public Event touchZoneOutputEvent;
@@ -29,7 +29,7 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
         SetupHandle();
     }
 
-    private void SetupHandle()
+    void SetupHandle()
     {
         if(handleRect)
         {

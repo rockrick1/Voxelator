@@ -102,12 +102,12 @@ namespace VoxelEngine
 					ys), zs);
 		}
 
-		private static float Lerp(float a, float b, float t)
+		static float Lerp(float a, float b, float t)
 		{
 			return a + t*(b - a);
 		}
 
-		private static int FastFloor(float f)
+		static int FastFloor(float f)
 		{
 			return (f >= 0.0f ? (int) f : (int) f - 1);
 		}

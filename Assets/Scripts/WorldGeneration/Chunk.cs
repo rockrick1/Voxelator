@@ -29,7 +29,7 @@ namespace WorldGeneration
         [SerializeField] MeshFilter _meshFilter;
         [SerializeField] MeshCollider _meshCollider;
 
-        public Vector3Int IndexInWorld { get; private set; }
+        public Vector3Int IndexInWorld { get; set; }
         public bool IsBuilt => _meshFilter.mesh.vertexCount > 0;
         
         byte[,,] _voxels;
